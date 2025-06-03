@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import GestionUsuarios from './usuarios/GestionUsuarios';
+import GestionGrupos from './grupos/GestionGrupos';
 
 const DashboardAdmin = () => {
   const { user, logout } = useAuth();
@@ -17,6 +18,8 @@ const DashboardAdmin = () => {
     switch (vistaActual) {
       case 'usuarios':
         return <GestionUsuarios />;
+      case 'grupos':
+        return <GestionGrupos />;
       case 'dashboard':
       default:
         return (
@@ -65,17 +68,21 @@ const DashboardAdmin = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <button 
                   onClick={() => setVistaActual('usuarios')}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform cursor-pointer
+"
                 >
                   Gestionar Usuarios
                 </button>
-                <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                  Crear Grupo
+                <button 
+                  onClick={() => setVistaActual('grupos')}
+                  className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform cursor-pointer"
+                >
+                  Gestionar Grupos
                 </button>
-                <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                <button className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform cursor-pointer">
                   Ver Reportes
                 </button>
-                <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                <button className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform cursor-pointer">
                   Configuración
                 </button>
               </div>
@@ -100,7 +107,7 @@ const DashboardAdmin = () => {
                 className={`hidden sm:block px-3 py-2 rounded-md text-sm font-medium ${
                   vistaActual === 'dashboard' 
                     ? 'bg-gray-900 text-white' 
-                    : 'text-gray-700 hover:bg-gray-200'
+                    : 'text-gray-700 hover:bg-gray-200 transition-all duration-300 ease-in-out transform cursor-pointer'
                 }`}
               >
                 Dashboard
@@ -110,15 +117,25 @@ const DashboardAdmin = () => {
                 className={`hidden sm:block px-3 py-2 rounded-md text-sm font-medium ${
                   vistaActual === 'usuarios' 
                     ? 'bg-gray-900 text-white' 
-                    : 'text-gray-700 hover:bg-gray-200'
+                    : 'text-gray-700 hover:bg-gray-200 transition-all duration-300 ease-in-out transform cursor-pointer'
                 }`}
               >
                 Usuarios
               </button>
+              <button
+                onClick={() => setVistaActual('grupos')}
+                className={`hidden sm:block px-3 py-2 rounded-md text-sm font-medium ${
+                  vistaActual === 'grupos' 
+                    ? 'bg-gray-900 text-white' 
+                    : 'text-gray-700 hover:bg-gray-200 transition-all duration-300 ease-in-out transform cursor-pointer'
+                }`}
+              >
+                Grupos
+              </button>
               <span className="hidden sm:inline text-gray-700 text-sm">Hola, {user?.nombreUsuario}</span>
               <button
                 onClick={handleLogout}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded text-sm"
+                className="bg-[#ed247b] hover:bg-[#e0005d] text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded text-sm  transition-all duration-300 ease-in-out transform cursor-pointer"
               >
                 Cerrar Sesión
               </button>

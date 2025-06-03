@@ -98,4 +98,55 @@ export const usuarioService = {
   },
 };
 
+// Servicios de grupos
+export const grupoService = {
+  // Obtener todos los grupos
+  obtenerTodos: async () => {
+    const response = await api.get('/grupos');
+    return response.data;
+  },
+
+  // Obtener grupos activos
+  obtenerActivos: async () => {
+    const response = await api.get('/grupos/activos');
+    return response.data;
+  },
+
+  // Obtener grupo por ID
+  obtenerPorId: async (id) => {
+    const response = await api.get(`/grupos/${id}`);
+    return response.data;
+  },
+
+  // Obtener grupos de un profesor
+  obtenerPorProfesor: async (profesorId) => {
+    const response = await api.get(`/grupos/profesor/${profesorId}`);
+    return response.data;
+  },
+
+  // Crear grupo
+  crear: async (grupo) => {
+    const response = await api.post('/grupos', grupo);
+    return response.data;
+  },
+
+  // Actualizar grupo
+  actualizar: async (id, grupo) => {
+    const response = await api.put(`/grupos/${id}`, grupo);
+    return response.data;
+  },
+
+  // Cambiar estado
+  cambiarEstado: async (id) => {
+    const response = await api.patch(`/grupos/${id}/estado`);
+    return response.data;
+  },
+
+  // Asignar profesor
+  asignarProfesor: async (grupoId, profesorId) => {
+    const response = await api.post(`/grupos/${grupoId}/profesores/${profesorId}`);
+    return response.data;
+  },
+};
+
 export default api;
