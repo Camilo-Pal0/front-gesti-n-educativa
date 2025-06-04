@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { asistenciaService, grupoService } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 
-const TomarAsistencia = ({ onBack }) => {
+const TomarAsistencia = ({ onBack, grupoPreseleccionado }) => {
   const { user } = useAuth();
   const [grupos, setGrupos] = useState([]);
-  const [grupoSeleccionado, setGrupoSeleccionado] = useState('');
+  const [grupoSeleccionado, setGrupoSeleccionado] = useState(grupoPreseleccionado?.id?.toString() || '');
   const [fecha, setFecha] = useState(new Date().toISOString().split('T')[0]);
   const [estudiantes, setEstudiantes] = useState([]);
   const [loading, setLoading] = useState(false);

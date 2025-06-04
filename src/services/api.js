@@ -206,4 +206,25 @@ export const asistenciaService = {
   },
 };
 
+// Servicios de estadísticas
+export const estadisticaService = {
+  // Estadísticas admin
+  obtenerEstadisticasAdmin: async () => {
+    const response = await api.get('/estadisticas/admin');
+    return response.data;
+  },
+
+  // Estadísticas profesor
+  obtenerEstadisticasProfesor: async () => {
+    const response = await api.get('/estadisticas/profesor');
+    return response.data;
+  },
+
+  // Asistencias de hoy
+  obtenerAsistenciasHoy: async () => {
+    const response = await api.get('/estadisticas/asistencias-hoy');
+    return response.data;
+  },
+};
+
 export default api;

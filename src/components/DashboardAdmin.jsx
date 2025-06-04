@@ -1,13 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import GestionUsuarios from './usuarios/GestionUsuarios';
 import GestionGrupos from './grupos/GestionGrupos';
+import { estadisticaService } from '../services/api';
 
 const DashboardAdmin = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [vistaActual, setVistaActual] = useState('dashboard');
+  const [estadisticas, setEstadisticas] = useState({
+    totalCursos: 0,
+    totalProfesores: 0,
+    totalEstudiantes: 0,
+    asistenciaPromedio: 0
+  });
+
+  useEffect(() => {
+    if (vistaActual === 'dashboard') {
+      cargarEstadisticas();
+    }
+  }, [vistaActual]);
+
+  const cargarEstadisticas = async () => {
+    try {
+      const data = await estadisticaService.obtenerEstadisticasAdmin();
+      setEstadisticas(data);
+    } catch (error) {
+      console.error('Error al cargar estadísticas:', error);
+    }
+  };
 
   const handleLogout = () => {
     logout();
@@ -24,39 +46,51 @@ const DashboardAdmin = () => {
       default:
         return (
           <div className="px-4 py-6 sm:px-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Tarjeta de Usuarios */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {/* Tarjeta Total de Cursos */}
               <div className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
                   <dt className="text-sm font-medium text-gray-500 truncate">
-                    Total Usuarios
+                    Total de Cursos
                   </dt>
                   <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                    --
+                    {estadisticas.totalCursos}
                   </dd>
                 </div>
               </div>
 
-              {/* Tarjeta de Grupos */}
+              {/* Tarjeta Total de Profesores */}
               <div className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
                   <dt className="text-sm font-medium text-gray-500 truncate">
-                    Total Grupos
+                    Total de Profesores
                   </dt>
                   <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                    --
+                    {estadisticas.totalProfesores}
                   </dd>
                 </div>
               </div>
 
-              {/* Tarjeta de Asistencias */}
+              {/* Tarjeta Total de Estudiantes */}
               <div className="bg-white overflow-hidden shadow rounded-lg">
                 <div className="px-4 py-5 sm:p-6">
                   <dt className="text-sm font-medium text-gray-500 truncate">
-                    Asistencias Hoy
+                    Total de Estudiantes
                   </dt>
                   <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                    --
+                    {estadisticas.totalEstudiantes}
+                  </dd>
+                </div>
+              </div>
+
+              {/* Tarjeta Asistencia Promedio */}
+              <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="px-4 py-5 sm:p-6">
+                  <dt className="text-sm font-medium text-gray-500 truncate">
+                    Asistencia Promedio
+                  </dt>
+                  <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                    {estadisticas.asistenciaPromedio.toFixed(1)}%
                   </dd>
                 </div>
               </div>
@@ -68,21 +102,20 @@ const DashboardAdmin = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <button 
                   onClick={() => setVistaActual('usuarios')}
-                  className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform cursor-pointer
-"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Gestionar Usuarios
                 </button>
                 <button 
                   onClick={() => setVistaActual('grupos')}
-                  className="bg-green-400 hover:bg-green-500 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform cursor-pointer"
+                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Gestionar Grupos
                 </button>
-                <button className="bg-purple-400 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform cursor-pointer">
+                <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
                   Ver Reportes
                 </button>
-                <button className="bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-2 px-4 rounded transition-all duration-300 ease-in-out transform cursor-pointer">
+                <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                   Configuración
                 </button>
               </div>
@@ -107,7 +140,7 @@ const DashboardAdmin = () => {
                 className={`hidden sm:block px-3 py-2 rounded-md text-sm font-medium ${
                   vistaActual === 'dashboard' 
                     ? 'bg-gray-900 text-white' 
-                    : 'text-gray-700 hover:bg-gray-200 transition-all duration-300 ease-in-out transform cursor-pointer'
+                    : 'text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 Dashboard
@@ -117,7 +150,7 @@ const DashboardAdmin = () => {
                 className={`hidden sm:block px-3 py-2 rounded-md text-sm font-medium ${
                   vistaActual === 'usuarios' 
                     ? 'bg-gray-900 text-white' 
-                    : 'text-gray-700 hover:bg-gray-200 transition-all duration-300 ease-in-out transform cursor-pointer'
+                    : 'text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 Usuarios
@@ -127,7 +160,7 @@ const DashboardAdmin = () => {
                 className={`hidden sm:block px-3 py-2 rounded-md text-sm font-medium ${
                   vistaActual === 'grupos' 
                     ? 'bg-gray-900 text-white' 
-                    : 'text-gray-700 hover:bg-gray-200 transition-all duration-300 ease-in-out transform cursor-pointer'
+                    : 'text-gray-700 hover:bg-gray-200'
                 }`}
               >
                 Grupos
@@ -135,7 +168,7 @@ const DashboardAdmin = () => {
               <span className="hidden sm:inline text-gray-700 text-sm">Hola, {user?.nombreUsuario}</span>
               <button
                 onClick={handleLogout}
-                className="bg-[#ed247b] hover:bg-[#e0005d] text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded text-sm  transition-all duration-300 ease-in-out transform cursor-pointer"
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 sm:py-2 sm:px-4 rounded text-sm"
               >
                 Cerrar Sesión
               </button>
