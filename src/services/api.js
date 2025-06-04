@@ -147,6 +147,63 @@ export const grupoService = {
     const response = await api.post(`/grupos/${grupoId}/profesores/${profesorId}`);
     return response.data;
   },
+
+  // Inscribir estudiante
+  inscribirEstudiante: async (grupoId, estudianteId) => {
+    const response = await api.post(`/grupos/${grupoId}/estudiantes/${estudianteId}`);
+    return response.data;
+  },
+
+  // Desinscribir estudiante
+  desinscribirEstudiante: async (grupoId, estudianteId) => {
+    const response = await api.delete(`/grupos/${grupoId}/estudiantes/${estudianteId}`);
+    return response.data;
+  },
+
+  // Obtener estudiantes del grupo
+  obtenerEstudiantesDelGrupo: async (grupoId) => {
+    const response = await api.get(`/grupos/${grupoId}/estudiantes`);
+    return response.data;
+  },
+
+  // Obtener estudiantes disponibles
+  obtenerEstudiantesDisponibles: async (grupoId) => {
+    const response = await api.get(`/grupos/${grupoId}/estudiantes/disponibles`);
+    return response.data;
+  },
+};
+
+// Servicios de asistencias
+export const asistenciaService = {
+  // Tomar asistencia
+  tomarAsistencia: async (datos) => {
+    const response = await api.post('/asistencias/tomar', datos);
+    return response.data;
+  },
+
+  // Obtener lista de estudiantes para asistencia
+  obtenerListaAsistencia: async (grupoId, fecha) => {
+    const response = await api.get(`/asistencias/grupo/${grupoId}/fecha/${fecha}`);
+    return response.data;
+  },
+
+  // Verificar si ya se tomó asistencia
+  verificarAsistencia: async (grupoId, fecha) => {
+    const response = await api.get(`/asistencias/grupo/${grupoId}/fecha/${fecha}/verificar`);
+    return response.data;
+  },
+
+  // Obtener historial de asistencias
+  obtenerHistorial: async (grupoId) => {
+    const response = await api.get(`/asistencias/grupo/${grupoId}/historial`);
+    return response.data;
+  },
+
+  // Obtener estadísticas
+  obtenerEstadisticas: async (grupoId) => {
+    const response = await api.get(`/asistencias/grupo/${grupoId}/estadisticas`);
+    return response.data;
+  },
 };
 
 export default api;

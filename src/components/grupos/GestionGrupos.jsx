@@ -1,44 +1,70 @@
 import { useState } from 'react';
 import ListaGrupos from './ListaGrupos';
 import FormularioGrupo from './FormularioGrupo';
+import GestionarEstudiantes from './GestionarEstudiantes';
 
 const GestionGrupos = () => {
-  const [mostrarFormulario, setMostrarFormulario] = useState(false);
-  const [grupoEditar, setGrupoEditar] = useState(null);
+  const [vistaActual, setVistaActual] = useState('lista');
+  const [grupoSeleccionado, setGrupoSeleccionado] = useState(null);
 
   const handleAdd = () => {
-    setGrupoEditar(null);
-    setMostrarFormulario(true);
+    setGrupoSeleccionado(null);
+    setVistaActual('formulario');
   };
 
   const handleEdit = (grupo) => {
-    setGrupoEditar(grupo);
-    setMostrarFormulario(true);
+    setGrupoSeleccionado(grupo);
+    setVistaActual('formulario');
+  };
+
+  const handleManageStudents = (grupo) => {
+    setGrupoSeleccionado(grupo);
+    setVistaActual('estudiantes');
   };
 
   const handleSuccess = () => {
-    setMostrarFormulario(false);
-    setGrupoEditar(null);
+    setVistaActual('lista');
+    setGrupoSeleccionado(null);
   };
 
-  const handleCancel = () => {
-    setMostrarFormulario(false);
-    setGrupoEditar(null);
+  const handleBack = () => {
+    setVistaActual('lista');
+    setGrupoSeleccionado(null);
+  };
+
+  const renderContenido = () => {
+    switch (vistaActual) {
+      case 'formulario':
+        return (
+          <FormularioGrupo 
+            grupo={grupoSeleccionado}
+            onSuccess={handleSuccess}
+            onCancel={handleBack}
+          />
+        );
+      case 'estudiantes':
+        return (
+          <GestionarEstudiantes
+            grupo={grupoSeleccionado}
+            onBack={handleBack}
+          />
+        );
+      case 'lista':
+      default:
+        return (
+          <ListaGrupos 
+            onEdit={handleEdit} 
+            onAdd={handleAdd}
+            onManageStudents={handleManageStudents}
+          />
+        );
+    }
   };
 
   return (
     <div className="w-full">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Gestión de Grupos</h2>
-      
-      {!mostrarFormulario ? (
-        <ListaGrupos onEdit={handleEdit} onAdd={handleAdd} />
-      ) : (
-        <FormularioGrupo 
-          grupo={grupoEditar}
-          onSuccess={handleSuccess}
-          onCancel={handleCancel}
-        />
-      )}
+      {renderContenido()}
     </div>
   );
 };

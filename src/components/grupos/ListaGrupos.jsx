@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { grupoService } from '../../services/api';
 
-const ListaGrupos = ({ onEdit, onAdd }) => {
+const ListaGrupos = ({ onEdit, onAdd, onManageStudents }) => {
   const [grupos, setGrupos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -122,6 +122,12 @@ const ListaGrupos = ({ onEdit, onAdd }) => {
                       className="text-indigo-600 hover:text-indigo-900"
                     >
                       Editar
+                    </button>
+                    <button
+                      onClick={() => onManageStudents(grupo)}
+                      className="text-green-600 hover:text-green-900"
+                    >
+                      Estudiantes
                     </button>
                     <button
                       onClick={() => handleCambiarEstado(grupo.id)}
