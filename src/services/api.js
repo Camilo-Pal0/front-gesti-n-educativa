@@ -227,4 +227,45 @@ export const estadisticaService = {
   },
 };
 
+// Crear instancia para el servicio de analytics (Python)
+const analyticsApi = axios.create({
+  baseURL: 'http://localhost:5001',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+// Servicios de analytics
+export const analyticsService = {
+  // Análisis general de asistencias
+  obtenerAnalisisGeneral: async () => {
+    const response = await analyticsApi.get('/api/analytics/asistencia/general');
+    return response.data;
+  },
+
+  // Análisis por grupo
+  obtenerAnalisisGrupo: async (grupoId) => {
+    const response = await analyticsApi.get(`/api/analytics/asistencia/grupo/${grupoId}`);
+    return response.data;
+  },
+
+  // Análisis por estudiante
+  obtenerAnalisisEstudiante: async (estudianteId) => {
+    const response = await analyticsApi.get(`/api/analytics/asistencia/estudiante/${estudianteId}`);
+    return response.data;
+  },
+
+  // Reporte del profesor
+  obtenerReporteProfesor: async (profesorId) => {
+    const response = await analyticsApi.get(`/api/analytics/reporte/profesor/${profesorId}`);
+    return response.data;
+  },
+
+  // Predicción de deserción
+  obtenerPrediccionDesercion: async () => {
+    const response = await analyticsApi.get('/api/analytics/prediccion/desercion');
+    return response.data;
+  },
+};
+
 export default api;

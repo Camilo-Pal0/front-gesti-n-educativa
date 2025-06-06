@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import GestionUsuarios from './usuarios/GestionUsuarios';
 import GestionGrupos from './grupos/GestionGrupos';
+import Reportes from './reportes/Reportes';
 import { estadisticaService } from '../services/api';
 
 const DashboardAdmin = () => {
@@ -42,6 +43,8 @@ const DashboardAdmin = () => {
         return <GestionUsuarios />;
       case 'grupos':
         return <GestionGrupos />;
+      case 'reportes':
+        return <Reportes />;
       case 'dashboard':
       default:
         return (
@@ -112,7 +115,9 @@ const DashboardAdmin = () => {
                 >
                   Gestionar Grupos
                 </button>
-                <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
+                <button 
+                onClick={() => setVistaActual('reportes')}
+                className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">
                   Ver Reportes
                 </button>
                 <button className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
