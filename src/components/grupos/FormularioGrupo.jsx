@@ -200,7 +200,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
               onChange={handleChange}
               min="1"
               max="12"
-              className={`mt-1 block w-full rounded-md shadow-sm 
+              className={`mt-1 block w-full rounded-md shadow-sm h-10 pl-3 
                 ${errors.semestre ? 'border-red-300' : 'border-gray-300'}`}
             />
             {errors.semestre && (
@@ -239,7 +239,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
               onChange={handleChange}
               min="1"
               max="10"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-10 pl-3"
             />
           </div>
 
@@ -284,7 +284,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
               value={formData.cupoMaximo}
               onChange={handleChange}
               min="1"
-              className={`mt-1 block w-full rounded-md shadow-sm 
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm h-10 pl-3 
                 ${errors.cupoMaximo ? 'border-red-300' : 'border-gray-300'}`}
             />
             {errors.cupoMaximo && (

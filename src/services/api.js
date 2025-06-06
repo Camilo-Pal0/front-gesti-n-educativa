@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 const API_URL = '/api'; // Usar ruta relativa con el proxy de Vite
 
 // Crear instancia de axios

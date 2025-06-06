@@ -74,7 +74,7 @@ const Reportes = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Distribución General de Asistencias */}
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className="bg-gray-100 p-6 rounded-lg shadow-lg">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Distribución General de Asistencias</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
@@ -98,7 +98,7 @@ const Reportes = () => {
         </div>
 
         {/* Porcentaje de Asistencia por Materia */}
-        <div className="bg-white p-6 rounded-lg shadow">
+        <div className="bg-gray-100 p-6 rounded-lg shadow-lg">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Asistencia por Materia (%)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={dataMateria} margin={{ left: 20, right: 20 }}>
@@ -112,7 +112,7 @@ const Reportes = () => {
         </div>
 
         {/* Tendencia de Asistencias (Últimos 30 días) */}
-        <div className="bg-white p-6 rounded-lg shadow lg:col-span-2">
+        <div className="bg-gray-100 p-6 rounded-lg shadow-lg lg:col-span-2">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Tendencia de Asistencias - Últimos 30 días</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={dataTendencia} margin={{ left: 20, right: 20 }}>

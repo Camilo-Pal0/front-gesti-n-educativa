@@ -108,24 +108,25 @@ const ListaUsuarios = ({ onEdit, onAdd }) => {
                   </span>
                 </td>
                 <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex flex-col sm:flex-row gap-1 sm:gap-3">
+                  <div className="flex flex-col sm:flex-row gap-1 sm:gap-3  text-lg">
                     <button
                       onClick={() => onEdit(usuario)}
-                      className="text-indigo-600 hover:text-indigo-900"
+                      className="text-indigo-600 hover:text-indigo-900 cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110"
                     >
-                      Editar
+                      <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                     <button
                       onClick={() => handleCambiarEstado(usuario.id)}
-                      className="text-yellow-600 hover:text-yellow-900"
+                      className="text-yellow-600 hover:text-yellow-900 cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110"
                     >
-                      {usuario.activo ? 'Desactivar' : 'Activar'}
+                      {usuario.activo ? <i class="fas fa-toggle-off"></i>
+                     : <i class="fas fa-toggle-on"></i>}
                     </button>
                     <button
                       onClick={() => handleEliminar(usuario.id)}
-                      className="text-red-600 hover:text-red-900"
+                      className="text-red-600 hover:text-red-900 cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110"
                     >
-                      Eliminar
+                      <i class="fa-solid fa-trash-can"></i>
                     </button>
                   </div>
                 </td>

@@ -116,24 +116,25 @@ const ListaGrupos = ({ onEdit, onAdd, onManageStudents }) => {
                   </span>
                 </td>
                 <td className="px-3 sm:px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex flex-col sm:flex-row gap-1 sm:gap-3">
+                  <div className="flex flex-col sm:flex-row gap-1 sm:gap-3 text-lg">
                     <button
                       onClick={() => onEdit(grupo)}
-                      className="text-indigo-600 hover:text-indigo-900"
+                      className="text-indigo-600 hover:text-indigo-900 cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110"
                     >
-                      Editar
+                      <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                     <button
                       onClick={() => onManageStudents(grupo)}
-                      className="text-green-600 hover:text-green-900"
+                      className="text-green-600 hover:text-green-900 cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110"
                     >
-                      Estudiantes
+                      <i class="fa-solid fa-users"></i>
                     </button>
                     <button
                       onClick={() => handleCambiarEstado(grupo.id)}
-                      className="text-yellow-600 hover:text-yellow-900"
+                      className="text-yellow-600 hover:text-yellow-900 cursor-pointer transition-all duration-200 ease-in-out transform hover:scale-110"
                     >
-                      {grupo.activo ? 'Desactivar' : 'Activar'}
+                      {grupo.activo ? <i class="fas fa-toggle-off"></i>
+                     : <i class="fas fa-toggle-on"></i>}
                     </button>
                   </div>
                 </td>
