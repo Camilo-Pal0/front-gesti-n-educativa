@@ -120,14 +120,13 @@ const ListaGrupos = ({ onEdit, onAdd, onManageStudents }) => {
       <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h3 className="text-2xl font-bold text-gray-900">Gestión de Grupos</h3>
-            <p className="text-gray-600 mt-1">Administra los grupos y cursos del sistema</p>
+
           </div>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onAdd}
-            className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-emerald-700 transition-all duration-200 shadow-lg"
+            className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg font-medium hover:from-emerald-600 hover:to-emerald-700 transition-all duration-200 shadow-lg cursor-pointer"
           >
             <Plus className="w-5 h-5 mr-2" />
             Crear Grupo

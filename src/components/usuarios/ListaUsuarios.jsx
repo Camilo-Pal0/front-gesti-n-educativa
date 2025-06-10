@@ -123,14 +123,13 @@ const ListaUsuarios = ({ onEdit, onAdd }) => {
       <div className="p-6 border-b border-gray-200 bg-gradient-to-r from-gray-50 to-white">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h3 className="text-2xl font-bold text-gray-900">Gestión de Usuarios</h3>
-            <p className="text-gray-600 mt-1">Administra los usuarios del sistema</p>
+
           </div>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onAdd}
-            className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg"
+            className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-lg cursor-pointer"
           >
             <UserPlus className="w-5 h-5 mr-2" />
             Agregar Usuario
@@ -292,7 +291,7 @@ const ListaUsuarios = ({ onEdit, onAdd }) => {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => onEdit(usuario)}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
                           title="Editar"
                         >
                           <Edit className="w-5 h-5" />
@@ -301,7 +300,7 @@ const ListaUsuarios = ({ onEdit, onAdd }) => {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => handleCambiarEstado(usuario.id)}
-                          className={`p-2 ${usuario.activo ? 'text-amber-600 hover:bg-amber-50' : 'text-green-600 hover:bg-green-50'} rounded-lg transition-colors`}
+                          className={`p-2 ${usuario.activo ? 'text-amber-600 hover:bg-amber-50' : 'text-green-600 hover:bg-green-50'} rounded-lg transition-colors cursor-pointer`}
                           title={usuario.activo ? 'Desactivar' : 'Activar'}
                         >
                           <Power className="w-5 h-5" />
@@ -310,7 +309,7 @@ const ListaUsuarios = ({ onEdit, onAdd }) => {
                           whileHover={{ scale: 1.1 }}
                           whileTap={{ scale: 0.9 }}
                           onClick={() => handleEliminar(usuario.id)}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
                           title="Eliminar"
                         >
                           <Trash2 className="w-5 h-5" />

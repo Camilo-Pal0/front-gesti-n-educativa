@@ -46,6 +46,9 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    console.log(`Campo modificado: ${name}, Nuevo valor: ${value}`);
+
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -135,7 +138,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
       className="bg-white rounded-2xl shadow-xl overflow-hidden"
     >
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-4">
+      <div className="bg-gradient-to-r from-[#e82b7b] to-[#bf0050] px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
@@ -147,7 +150,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
           </div>
           <button
             onClick={onCancel}
-            className="text-white/80 hover:text-white transition-colors"
+            className="text-white/80 hover:text-white transition-colors cursor-pointer"
           >
             <X className="w-6 h-6" />
           </button>
@@ -261,7 +264,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
                     className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                       errors.nombreUsuario 
                         ? 'border-red-300 focus:ring-red-500' 
-                        : 'border-gray-300 focus:ring-blue-500'
+                        : 'border-gray-300 focus:ring-[#e82c7a]'
                     }`}
                     placeholder="usuario123"
                   />
@@ -288,7 +291,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
                     className={`w-full pl-10 pr-10 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                       errors.contrasena 
                         ? 'border-red-300 focus:ring-red-500' 
-                        : 'border-gray-300 focus:ring-blue-500'
+                        : 'border-gray-300 focus:ring-[#e82c7a]'
                     }`}
                     placeholder="••••••••"
                   />
@@ -321,7 +324,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
                   className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.email 
                       ? 'border-red-300 focus:ring-red-500' 
-                      : 'border-gray-300 focus:ring-blue-500'
+                      : 'border-gray-300 focus:ring-[#e82c7a]'
                   }`}
                   placeholder="usuario@ejemplo.com"
                 />
@@ -346,7 +349,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
                   className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.telefonoMovil 
                       ? 'border-red-300 focus:ring-red-500' 
-                      : 'border-gray-300 focus:ring-blue-500'
+                      : 'border-gray-300 focus:ring-[#e82c7a]'
                   }`}
                   placeholder="1234567890"
                 />
@@ -368,7 +371,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
                   name="fechaNacimiento"
                   value={formData.fechaNacimiento}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e82c7a] transition-all"
                 />
               </div>
             </div>
@@ -385,7 +388,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
                   value={formData.direccion}
                   onChange={handleChange}
                   rows="2"
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e82c7a] transition-all resize-none"
                   placeholder="Calle, número, colonia..."
                 />
               </div>
@@ -410,7 +413,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
                       name="especialidad"
                       value={formData.especialidad}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e82c7a] transition-all"
                       placeholder="Ej: Matemáticas, Física, etc."
                     />
                   </div>
@@ -427,7 +430,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
             onClick={onCancel}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all duration-200 flex items-center"
+            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all duration-200 flex items-center cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <X className="w-5 h-5 mr-2" />
             Cancelar
@@ -437,7 +440,7 @@ const FormularioUsuario = ({ usuario, onSuccess, onCancel }) => {
             disabled={loading}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-gradient-to-r from-[#e82b7b] to-[#bf0050] text-white rounded-lg hover:from-[#bf0050] hover:to-[#e82b7b] transition-all duration-200 flex items-center disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {loading ? (
               <>

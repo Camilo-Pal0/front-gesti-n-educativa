@@ -138,7 +138,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
       className="bg-white rounded-2xl shadow-xl overflow-hidden"
     >
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-4">
+      <div className="bg-gradient-to-r from-[#bf0050] to-[#e82b7b] px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
@@ -150,7 +150,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
           </div>
           <button
             onClick={onCancel}
-            className="text-white/80 hover:text-white transition-colors"
+            className="text-white/80 hover:text-white transition-colors cursor-pointer"
           >
             <X className="w-6 h-6" />
           </button>
@@ -203,7 +203,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.codigo 
                       ? 'border-red-300 focus:ring-red-500' 
-                      : 'border-gray-300 focus:ring-blue-500'
+                      : 'border-gray-300 focus:ring-[#e82c7a]'
                   }`}
                   placeholder="Ej: MAT101"
                 />
@@ -228,7 +228,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.nombreGrupo 
                       ? 'border-red-300 focus:ring-red-500' 
-                      : 'border-gray-300 focus:ring-blue-500'
+                      : 'border-gray-300 focus:ring-[#e82c7a]'
                   }`}
                   placeholder="Ej: Grupo A"
                 />
@@ -253,7 +253,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.materia 
                       ? 'border-red-300 focus:ring-red-500' 
-                      : 'border-gray-300 focus:ring-blue-500'
+                      : 'border-gray-300 focus:ring-[#e82c7a]'
                   }`}
                   placeholder="Ej: Cálculo Diferencial"
                 />
@@ -275,7 +275,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   name="facultad"
                   value={formData.facultad}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e82c7a] transition-all"
                   placeholder="Ej: Ingeniería"
                 />
               </div>
@@ -295,7 +295,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.semestre 
                       ? 'border-red-300 focus:ring-red-500' 
-                      : 'border-gray-300 focus:ring-blue-500'
+                      : 'border-gray-300 focus:ring-[#e82c7a]'
                   }`}
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(sem => (
@@ -323,7 +323,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.periodo 
                       ? 'border-red-300 focus:ring-red-500' 
-                      : 'border-gray-300 focus:ring-blue-500'
+                      : 'border-gray-300 focus:ring-[#e82c7a]'
                   }`}
                   placeholder="Ej: 2024-1"
                 />
@@ -347,7 +347,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   onChange={handleChange}
                   min="1"
                   max="10"
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e82c7a] transition-all"
                 />
               </div>
             </div>
@@ -368,7 +368,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
                     errors.cupoMaximo 
                       ? 'border-red-300 focus:ring-red-500' 
-                      : 'border-gray-300 focus:ring-blue-500'
+                      : 'border-gray-300 focus:ring-[#e82c7a]'
                   }`}
                 />
               </div>
@@ -389,7 +389,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   name="horario"
                   value={formData.horario}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e82c7a] transition-all"
                   placeholder="Ej: LUN-MIE 14:00-16:00"
                 />
               </div>
@@ -407,7 +407,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                   name="aula"
                   value={formData.aula}
                   onChange={handleChange}
-                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#e82c7a] transition-all"
                   placeholder="Ej: Edificio A - 301"
                 />
               </div>
@@ -442,7 +442,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
                         type="checkbox"
                         checked={formData.profesoresIds.includes(profesor.id)}
                         onChange={() => handleProfesorChange(profesor.id)}
-                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-[#e82c7a]"
                       />
                       <div className="ml-3 flex items-center">
                         <div className="bg-blue-100 rounded-full p-2 mr-3">
@@ -471,7 +471,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
             onClick={onCancel}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all duration-200 flex items-center"
+            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all duration-200 flex items-center cursor-pointer"
           >
             <X className="w-5 h-5 mr-2" />
             Cancelar
@@ -481,7 +481,7 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
             disabled={loading}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-2 bg-gradient-to-r from-[#e82b7b] to-[#bf0050] text-white rounded-lg hover:from-[#bf0050] hover:to-[#e82b7b] transition-all duration-200 flex items-center disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {loading ? (
               <>

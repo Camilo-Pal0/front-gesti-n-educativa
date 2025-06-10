@@ -244,8 +244,8 @@ const DashboardProfesor = () => {
       <div className={`fixed inset-0 z-40 lg:hidden ${sidebarOpen ? '' : 'hidden'}`}>
         <div className="fixed inset-0 bg-black opacity-50" onClick={() => setSidebarOpen(false)}></div>
         <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-64 bg-white shadow-xl">
-          <div className="flex items-center justify-between p-4 border-b">
-            <h2 className="text-xl font-bold text-gray-800">Portal Profesor</h2>
+          <div className="flex items-center justify-between p-4">
+            <h2 className="text-xl font-bold text-[#bf0050]">Portal Profesor</h2>
             <button onClick={() => setSidebarOpen(false)}>
               <X className="w-6 h-6 text-gray-600" />
             </button>
@@ -259,7 +259,7 @@ const DashboardProfesor = () => {
                   setSidebarOpen(false);
                 }}
                 className={`w-full flex items-center px-6 py-3 text-left hover:bg-gray-100 transition-colors ${
-                  vistaActual === item.id ? 'bg-indigo-50 border-r-4 border-indigo-500 text-indigo-600' : 'text-gray-700'
+                  vistaActual === item.id ? 'bg-indigo-50 border-r-4 border-[#bf0050] text-[#bf0050]' : 'text-gray-700'
                 }`}
               >
                 <item.icon className="w-5 h-5 mr-3" />
@@ -272,8 +272,8 @@ const DashboardProfesor = () => {
 
       {/* Sidebar Desktop */}
       <nav className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-white shadow-lg">
-        <div className="flex items-center p-6 border-b">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-teal-600 flex items-center justify-center text-white font-bold">
+        <div className="flex items-center p-6">
+          <div className="w-10 h-10 rounded-full bg-[#bf0050] flex items-center justify-center text-white font-bold">
             {user?.nombreUsuario?.charAt(0).toUpperCase()}
           </div>
           <h2 className="ml-3 text-xl font-bold text-gray-800">Portal Profesor</h2>
@@ -285,7 +285,7 @@ const DashboardProfesor = () => {
               key={item.id}
               onClick={() => setVistaActual(item.id)}
               className={`w-full flex items-center px-6 py-3 text-left hover:bg-gray-100 transition-all ${
-                vistaActual === item.id ? 'bg-indigo-50 border-r-4 border-indigo-500 text-indigo-600' : 'text-gray-700'
+                vistaActual === item.id ? 'bg-indigo-50 border-r-4 border-[#bf0050] text-[#bf0050] cursor-pointer' : 'text-gray-700 cursor-pointer'
               }`}
             >
               <item.icon className="w-5 h-5 mr-3" />
@@ -294,7 +294,7 @@ const DashboardProfesor = () => {
           ))}
         </div>
 
-        <div className="p-6 border-t">
+        <div className="p-6">
           <button
             onClick={handleLogout}
             className="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
@@ -319,7 +319,7 @@ const DashboardProfesor = () => {
             
             <div className="flex items-center space-x-4 ml-auto">
               <span className="text-gray-700">Profesor {user?.nombreUsuario}</span>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-teal-600 flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 rounded-full bg-[#bf0050] flex items-center justify-center text-white font-bold">
                 {user?.nombreUsuario?.charAt(0).toUpperCase()}
               </div>
             </div>

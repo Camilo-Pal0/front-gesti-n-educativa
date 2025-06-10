@@ -92,15 +92,15 @@ const renderContenido = () => {
             case 'dashboard':
             default:
               return (
-                <div className="space-y-6">
+                <div className="text-center space-y-7">
                   {/* Header del Dashboard */}
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <h1 className="text-3xl font-bold text-gray-900">Dashboard Administrativo</h1>
-                    <p className="text-gray-600 mt-2">Bienvenido de vuelta, {user?.nombreUsuario}</p>
+                    <h1 className="text-4xl font-bold text-gray-900 mb-3">Dashboard Administrativo</h1>
+                    <p className="text-gray-600 text-lg">Bienvenido de vuelta, {user?.nombreUsuario}</p>
                   </motion.div>
 
                   {/* Grid de Estadísticas con animación escalonada */}
@@ -263,8 +263,8 @@ const renderContenido = () => {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed top-0 left-0 bottom-0 z-50 flex flex-col w-64 bg-white shadow-xl lg:hidden"
             >
-              <div className="flex items-center justify-between p-4 border-b">
-                <h2 className="text-xl font-bold text-gray-800">Sistema Educativo</h2>
+              <div className="flex items-center justify-between p-4">
+                <h2 className="text-xl font-bold text-[#e82b7b]">Sistema CESDE</h2>
                 <button onClick={() => setSidebarOpen(false)}>
                   <X className="w-6 h-6 text-gray-600" />
                 </button>
@@ -281,7 +281,7 @@ const renderContenido = () => {
                       setSidebarOpen(false);
                     }}
                     className={`w-full flex items-center px-6 py-3 text-left hover:bg-gray-100 transition-colors ${
-                      vistaActual === item.id ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-700'
+                      vistaActual === item.id ? 'bg-blue-50 border-r-4 border-[#e82b7b] text-[#e82b7b]' : 'text-gray-700'
                     }`}
                   >
                     <item.icon className="w-5 h-5 mr-3" />
@@ -296,11 +296,11 @@ const renderContenido = () => {
 
       {/* Sidebar Desktop */}
       <nav className="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0 bg-white shadow-lg">
-        <div className="flex items-center p-6 border-b">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold">
+        <div className="flex items-center p-6">
+          <div className="w-10 h-10 rounded-full bg-[#e82c7a] flex items-center justify-center text-white font-bold">
             SE
           </div>
-          <h2 className="ml-3 text-xl font-bold text-gray-800">Sistema Educativo</h2>
+          <h2 className="ml-3 text-xl font-bold text-gray-800">Sistema CESDE</h2>
         </div>
         
         <div className="flex-1 py-6">
@@ -308,8 +308,8 @@ const renderContenido = () => {
             <button
               key={item.id}
               onClick={() => setVistaActual(item.id)}
-              className={`w-full flex items-center px-6 py-3 text-left hover:bg-gray-100 transition-all ${
-                vistaActual === item.id ? 'bg-blue-50 border-r-4 border-blue-500 text-blue-600' : 'text-gray-700'
+              className={`w-full flex items-center px-6 py-3 text-left hover:bg-gray-100 transition-all cursor-pointer ${
+                vistaActual === item.id ? 'bg-blue-50 border-r-4 border-[#e82c7a] text-[#e82c7a]' : 'text-gray-700'
               }`}
             >
               <item.icon className="w-5 h-5 mr-3" />
@@ -318,10 +318,10 @@ const renderContenido = () => {
           ))}
         </div>
 
-        <div className="p-6 border-t">
+        <div className="p-6">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            className="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
           >
             <LogOut className="w-5 h-5 mr-3" />
             Cerrar Sesión
@@ -343,7 +343,7 @@ const renderContenido = () => {
             
             <div className="flex items-center space-x-4 ml-auto">
               <span className="text-gray-700">Hola, {user?.nombreUsuario}</span>
-              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-500 to-teal-600 flex items-center justify-center text-white font-bold">
+              <div className="w-10 h-10 rounded-full bg-[#e82c7a] flex items-center justify-center text-white font-bold">
                 {user?.nombreUsuario?.charAt(0).toUpperCase()}
               </div>
             </div>

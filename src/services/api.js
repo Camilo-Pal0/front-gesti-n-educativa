@@ -75,6 +75,7 @@ export const usuarioService = {
 
   // Actualizar usuario
   actualizar: async (id, usuario) => {
+    console.log('Actualizando usuario con ID:', id, 'Datos:', usuario); // Debug
     const response = await api.put(`/usuarios/${id}`, usuario);
     return response.data;
   },

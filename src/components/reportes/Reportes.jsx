@@ -450,7 +450,7 @@ const Reportes = () => {
                     >
                       <td className="px-8 py-4">
                         <div className="flex items-center space-x-3">
-                          <div className="w-10 h-10 bg-gradient-to-r from-indigo-500 to-teal-600 rounded-full flex items-center justify-center text-white font-semibold">
+                          <div className="w-10 h-10 bg-[#e82b7b] rounded-full flex items-center justify-center text-white font-semibold">
                             {estudiante.nombre_usuario.charAt(0)}
                           </div>
                           <span className="font-medium text-gray-900">{estudiante.nombre_usuario}</span>

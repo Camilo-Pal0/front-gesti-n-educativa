@@ -29,8 +29,12 @@ const GestionUsuarios = () => {
 
   return (
     <div className="w-full">
-      <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Gestión de Usuarios</h2>
+      <div className="mb-0 sm:mb-5">
+          <h2 className="mt-5 sm:mt-0 text-4xl sm:text-4xl font-bold text-gray-900 mb-4 sm:mb-3 text-center">Gestión de Usuarios</h2>
+          <p className="text-gray-600 text-lg text-center">Administra los usuarios del sistema</p>
+      </div>
       
+
       {!mostrarFormulario ? (
         <ListaUsuarios onEdit={handleEdit} onAdd={handleAdd} />
       ) : (

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { User, Lock, Eye, EyeOff, GraduationCap } from 'lucide-react';
+import imagen from '../assets/img/imagen.png'; // Asegúrate de que la ruta sea correcta
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -190,36 +191,15 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Lado Derecho - Imagen/Gradiente */}
+      {/* Lado Derecho - Imagen */}
       <div className="hidden lg:block relative w-0 flex-1">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500">
-          <div className="absolute inset-0 bg-black opacity-20"></div>
-          <div className="absolute inset-0 flex items-center justify-center p-12">
-            <div className="max-w-md text-center">
-              <h1 className="text-4xl font-bold text-white mb-6">
-                Sistema de Gestión Educativa
-              </h1>
-              <p className="text-xl text-white/90">
-                Gestiona tus cursos, estudiantes y asistencias de manera eficiente y moderna.
-              </p>
-              <div className="mt-12 grid grid-cols-3 gap-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white">500+</div>
-                  <div className="text-sm text-white/70 mt-1">Estudiantes</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white">50+</div>
-                  <div className="text-sm text-white/70 mt-1">Profesores</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white">98%</div>
-                  <div className="text-sm text-white/70 mt-1">Asistencia</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <img
+          src={imagen}
+          alt="Descripción de la imagen"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
       </div>
+
     </div>
   );
 };
