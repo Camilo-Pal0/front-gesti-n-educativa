@@ -58,87 +58,89 @@ const DashboardAdmin = () => {
     { id: 'reportes', label: 'Reportes', icon: BarChart3 },
   ];
 
-  const renderContenido = () => {
-    const pageVariants = {
-      initial: { opacity: 0, x: -20 },
-      in: { opacity: 1, x: 0 },
-      out: { opacity: 0, x: 20 }
-    };
+const renderContenido = () => {
+  const pageVariants = {
+    initial: { opacity: 0, x: -20 },
+    in: { opacity: 1, x: 0 },
+    out: { opacity: 0, x: 20 }
+  };
 
-    const pageTransition = {
-      type: "tween",
-      ease: "anticipate",
-      duration: 0.4
-    };
+  const pageTransition = {
+    type: "tween",
+    ease: "anticipate",
+    duration: 0.4
+  };
 
-    return (
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={vistaActual}
-          initial="initial"
-          animate="in"
-          exit="out"
-          variants={pageVariants}
-          transition={pageTransition}
-        >
-          {(() => {
-            switch (vistaActual) {
-              case 'usuarios':
-                return <GestionUsuarios />;
-              case 'grupos':
-                return <GestionGrupos />;
-              case 'reportes':
-                return <Reportes />;
-              case 'dashboard':
-              default:
-                return (
-                  <div className="space-y-6">
-                    {/* Header del Dashboard */}
-                    <motion.div
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <h1 className="text-3xl font-bold text-gray-900">Dashboard Administrativo</h1>
-                      <p className="text-gray-600 mt-2">Bienvenido de vuelta, {user?.nombreUsuario}</p>
-                    </motion.div>
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={vistaActual}
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+      >
+        {(() => {
+          switch (vistaActual) {
+            case 'usuarios':
+              return <GestionUsuarios />;
+            case 'grupos':
+              return <GestionGrupos />;
+            case 'reportes':
+              return <Reportes />;
+            case 'dashboard':
+            default:
+              return (
+                <div className="space-y-6">
+                  {/* Header del Dashboard */}
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <h1 className="text-3xl font-bold text-gray-900">Dashboard Administrativo</h1>
+                    <p className="text-gray-600 mt-2">Bienvenido de vuelta, {user?.nombreUsuario}</p>
+                  </motion.div>
 
-                    {/* Grid de Estadísticas con animación escalonada */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                      {[
-                        {
-                          titulo: "Total de Cursos",
-                          valor: estadisticas.totalCursos,
-                          subtitulo: "+2 este mes",
-                          icono: BookOpen,
-                          gradiente: "from-blue-500 to-blue-600",
-                          delay: 0.1
-                        },
-                        {
-                          titulo: "Total de Profesores",
-                          valor: estadisticas.totalProfesores,
-                          subtitulo: "Activos",
-                          icono: Users,
-                          gradiente: "from-emerald-500 to-emerald-600",
-                          delay: 0.1
-                        },
-                        {
-                          titulo: "Total de Estudiantes",
-                          valor: estadisticas.totalEstudiantes,
-                          subtitulo: "+12 nuevos",
-                          icono: GraduationCap,
-                          gradiente: "from-purple-500 to-purple-600",
-                          delay: 0.1
-                        },
-                        {
-                          titulo: "Asistencia Promedio",
-                          valor: `${estadisticas.asistenciaPromedio.toFixed(1)}%`,
-                          subtitulo: "↑ 2.3% vs mes anterior",
-                          icono: TrendingUp,
-                          gradiente: "from-amber-500 to-amber-600",
-                          delay: 0.1
-                        }
-                      ].map((stat, index) => (
+                  {/* Grid de Estadísticas con animación escalonada */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {[
+                      {
+                        titulo: "Total de Cursos",
+                        valor: estadisticas.totalCursos,
+                        subtitulo: "+2 este mes",
+                        icono: BookOpen,
+                        gradiente: "from-blue-500 to-blue-600",
+                        delay: 0.1
+                      },
+                      {
+                        titulo: "Total de Profesores",
+                        valor: estadisticas.totalProfesores,
+                        subtitulo: "Activos",
+                        icono: Users,
+                        gradiente: "from-emerald-500 to-emerald-600",
+                        delay: 0.1
+                      },
+                      {
+                        titulo: "Total de Estudiantes",
+                        valor: estadisticas.totalEstudiantes,
+                        subtitulo: "+12 nuevos",
+                        icono: GraduationCap,
+                        gradiente: "from-purple-500 to-purple-600",
+                        delay: 0.1
+                      },
+                      {
+                        titulo: "Asistencia Promedio",
+                        valor: `${estadisticas.asistenciaPromedio.toFixed(1)}%`,
+                        subtitulo: "↑ 2.3% vs mes anterior",
+                        icono: TrendingUp,
+                        gradiente: "from-amber-500 to-amber-600",
+                        delay: 0.1
+                      }
+                    ].map((stat, index) => {
+                      const IconoStat = stat.icono;
+                      return (
                         <motion.div
                           key={stat.titulo}
                           initial={{ opacity: 0, y: 20 }}
@@ -158,56 +160,59 @@ const DashboardAdmin = () => {
                               whileHover={{ rotate: 360 }}
                               transition={{ duration: 0.5 }}
                             >
-                              <stat.icono className="w-8 h-8" />
+                              <IconoStat className="w-8 h-8" />
                             </motion.div>
                           </div>
                         </motion.div>
-                      ))}
-                    </div>
+                      );
+                    })}
+                  </div>
 
-                    {/* Acciones Rápidas */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.1 }}
-                      className="bg-white rounded-2xl shadow-lg p-6"
-                    >
-                      <h2 className="text-xl font-bold text-gray-900 mb-6">Acciones Rápidas</h2>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {[
-                          {
-                            titulo: "Gestionar Usuarios",
-                            subtitulo: "Agregar o editar usuarios",
-                            icono: Users,
-                            gradientClasses: "bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200",
-                            iconColor: "text-blue-600",
-                            onClick: () => setVistaActual('usuarios')
-                          },
-                          {
-                            titulo: "Gestionar Grupos",
-                            subtitulo: "Administrar cursos",
-                            icono: BookOpen,
-                            gradientClasses: "bg-gradient-to-r from-emerald-50 to-emerald-100 hover:from-emerald-100 hover:to-emerald-200",
-                            iconColor: "text-emerald-600",
-                            onClick: () => setVistaActual('grupos')
-                          },
-                          {
-                            titulo: "Ver Reportes",
-                            subtitulo: "Análisis y estadísticas",
-                            icono: BarChart3,
-                            gradientClasses: "bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200",
-                            iconColor: "text-purple-600",
-                            onClick: () => setVistaActual('reportes')
-                          },
-                          {
-                            titulo: "Configuración",
-                            subtitulo: "Ajustes del sistema",
-                            icono: Settings,
-                            gradientClasses: "bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200",
-                            iconColor: "text-amber-600",
-                            onClick: () => {}
-                          }
-                        ].map((accion, index) => (
+                  {/* Acciones Rápidas */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0 }}
+                    className="bg-white rounded-2xl shadow-lg p-6"
+                  >
+                    <h2 className="text-xl font-bold text-gray-900 mb-6">Acciones Rápidas</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                      {[
+                        {
+                          titulo: "Gestionar Usuarios",
+                          subtitulo: "Agregar o editar usuarios",
+                          icono: Users,
+                          gradientClasses: "bg-gradient-to-r from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200",
+                          iconColor: "text-blue-600",
+                          onClick: () => setVistaActual('usuarios')
+                        },
+                        {
+                          titulo: "Gestionar Grupos",
+                          subtitulo: "Administrar cursos",
+                          icono: BookOpen,
+                          gradientClasses: "bg-gradient-to-r from-emerald-50 to-emerald-100 hover:from-emerald-100 hover:to-emerald-200",
+                          iconColor: "text-emerald-600",
+                          onClick: () => setVistaActual('grupos')
+                        },
+                        {
+                          titulo: "Ver Reportes",
+                          subtitulo: "Análisis y estadísticas",
+                          icono: BarChart3,
+                          gradientClasses: "bg-gradient-to-r from-purple-50 to-purple-100 hover:from-purple-100 hover:to-purple-200",
+                          iconColor: "text-purple-600",
+                          onClick: () => setVistaActual('reportes')
+                        },
+                        {
+                          titulo: "Configuración",
+                          subtitulo: "Ajustes del sistema",
+                          icono: Settings,
+                          gradientClasses: "bg-gradient-to-r from-amber-50 to-amber-100 hover:from-amber-100 hover:to-amber-200",
+                          iconColor: "text-amber-600",
+                          onClick: () => {}
+                        }
+                      ].map((accion, index) => {
+                        const IconoAccion = accion.icono;
+                        return (
                           <motion.button
                             key={accion.titulo}
                             onClick={accion.onClick}
@@ -219,22 +224,23 @@ const DashboardAdmin = () => {
                             className={`group relative overflow-hidden ${accion.gradientClasses} rounded-xl p-6 transition-all duration-300 cursor-pointer`}
                           >
                             <div className="relative z-10">
-                              <accion.icono className={`w-10 h-10 ${accion.iconColor} mb-3`} />
+                              <IconoAccion className={`w-10 h-10 ${accion.iconColor} mb-3`} />
                               <p className="font-semibold text-gray-900">{accion.titulo}</p>
                               <p className="text-sm text-gray-600 mt-1">{accion.subtitulo}</p>
                             </div>
                           </motion.button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  </div>
-                );
-            }
-          })()}
-        </motion.div>
-      </AnimatePresence>
-    );
-  };
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                </div>
+              );
+          }
+        })()}
+      </motion.div>
+    </AnimatePresence>
+  );
+};
 
   return (
     <div className="min-h-screen bg-gray-50">
