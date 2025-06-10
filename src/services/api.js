@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const API_URL = '/api'; // Usar ruta relativa con el proxy de Vite
 
 // Crear instancia de axios
@@ -203,6 +202,18 @@ export const asistenciaService = {
   // Obtener estadísticas
   obtenerEstadisticas: async (grupoId) => {
     const response = await api.get(`/asistencias/grupo/${grupoId}/estadisticas`);
+    return response.data;
+  },
+  
+  // Obtener historial con filtros
+  obtenerHistorialFiltrado: async (filtros) => {
+    const params = new URLSearchParams();
+    if (filtros.grupoId) params.append('grupoId', filtros.grupoId);
+    if (filtros.fechaInicio) params.append('fechaInicio', filtros.fechaInicio);
+    if (filtros.fechaFin) params.append('fechaFin', filtros.fechaFin);
+    if (filtros.estado) params.append('estado', filtros.estado);
+    
+    const response = await api.get(`/asistencias/historial?${params.toString()}`);
     return response.data;
   },
 };

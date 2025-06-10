@@ -1,5 +1,21 @@
 import { useState, useEffect } from 'react';
 import { grupoService, usuarioService } from '../../services/api';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  BookOpen,
+  Users,
+  Calendar,
+  Clock,
+  MapPin,
+  GraduationCap,
+  Building,
+  Hash,
+  AlertCircle,
+  CheckCircle,
+  X,
+  Save,
+  User
+} from 'lucide-react';
 
 const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -19,6 +35,8 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
   const [profesores, setProfesores] = useState([]);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [loadingProfesores, setLoadingProfesores] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     cargarProfesores();
@@ -32,11 +50,14 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
 
   const cargarProfesores = async () => {
     try {
+      setLoadingProfesores(true);
       const usuarios = await usuarioService.obtenerTodos();
       const profesoresFiltrados = usuarios.filter(u => u.tipoUsuario === 'PROFESOR' && u.activo);
       setProfesores(profesoresFiltrados);
     } catch (error) {
       console.error('Error al cargar profesores:', error);
+    } finally {
+      setLoadingProfesores(false);
     }
   };
 
@@ -46,10 +67,13 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
       ...prev,
       [name]: type === 'number' ? parseInt(value) : value
     }));
-    setErrors(prev => ({
-      ...prev,
-      [name]: ''
-    }));
+    // Limpiar error del campo cuando se modifica
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
   };
 
   const handleProfesorChange = (profesorId) => {
@@ -64,8 +88,8 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
   const validarFormulario = () => {
     const newErrors = {};
 
-    if (!formData.nombreGrupo) newErrors.nombreGrupo = 'El nombre del grupo es requerido';
     if (!formData.codigo) newErrors.codigo = 'El código es requerido';
+    if (!formData.nombreGrupo) newErrors.nombreGrupo = 'El nombre del grupo es requerido';
     if (!formData.materia) newErrors.materia = 'La materia es requerida';
     if (!formData.semestre || formData.semestre < 1) newErrors.semestre = 'El semestre debe ser mayor a 0';
     if (!formData.periodo) newErrors.periodo = 'El periodo es requerido';
@@ -89,7 +113,10 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
       } else {
         await grupoService.crear(formData);
       }
-      onSuccess();
+      setShowSuccess(true);
+      setTimeout(() => {
+        onSuccess();
+      }, 1500);
     } catch (error) {
       console.error('Error al guardar grupo:', error);
       if (error.response?.data?.mensaje) {
@@ -103,237 +130,377 @@ const FormularioGrupo = ({ grupo, onSuccess, onCancel }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6">
-      <h3 className="text-lg font-medium text-gray-900 mb-4">
-        {grupo ? 'Editar Grupo' : 'Nuevo Grupo'}
-      </h3>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {errors.general && (
-          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded">
-            {errors.general}
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3 }}
+      className="bg-white rounded-2xl shadow-xl overflow-hidden"
+    >
+      {/* Header */}
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="bg-white/20 backdrop-blur-sm rounded-full p-2">
+              <BookOpen className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="text-xl font-bold text-white">
+              {grupo ? 'Editar Grupo' : 'Nuevo Grupo'}
+            </h3>
           </div>
-        )}
+          <button
+            onClick={onCancel}
+            className="text-white/80 hover:text-white transition-colors"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Código */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Código del Curso
-            </label>
-            <input
-              type="text"
-              name="codigo"
-              value={formData.codigo}
-              onChange={handleChange}
-              placeholder="Ej: MAT101"
-              className={`mt-1 block w-full rounded-md shadow-sm 
-                ${errors.codigo ? 'border-red-300' : 'border-gray-300'}`}
-            />
-            {errors.codigo && (
-              <p className="mt-1 text-sm text-red-600">{errors.codigo}</p>
-            )}
-          </div>
+      <form onSubmit={handleSubmit} className="p-6">
+        {/* Mensajes de error/éxito */}
+        <AnimatePresence>
+          {errors.general && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start"
+            >
+              <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
+              <p className="text-sm text-red-700">{errors.general}</p>
+            </motion.div>
+          )}
 
-          {/* Nombre del Grupo */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Nombre del Grupo
-            </label>
-            <input
-              type="text"
-              name="nombreGrupo"
-              value={formData.nombreGrupo}
-              onChange={handleChange}
-              placeholder="Ej: Grupo A"
-              className={`mt-1 block w-full rounded-md shadow-sm 
-                ${errors.nombreGrupo ? 'border-red-300' : 'border-gray-300'}`}
-            />
-            {errors.nombreGrupo && (
-              <p className="mt-1 text-sm text-red-600">{errors.nombreGrupo}</p>
-            )}
-          </div>
+          {showSuccess && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-start"
+            >
+              <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
+              <p className="text-sm text-green-700">Grupo guardado exitosamente</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-          {/* Materia */}
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700">
-              Nombre de la Materia
-            </label>
-            <input
-              type="text"
-              name="materia"
-              value={formData.materia}
-              onChange={handleChange}
-              placeholder="Ej: Cálculo Diferencial"
-              className={`mt-1 block w-full rounded-md shadow-sm 
-                ${errors.materia ? 'border-red-300' : 'border-gray-300'}`}
-            />
-            {errors.materia && (
-              <p className="mt-1 text-sm text-red-600">{errors.materia}</p>
-            )}
-          </div>
+        {/* Campos del formulario */}
+        <div className="space-y-6">
+          {/* Información Básica */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Código del Curso */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Código del Curso
+              </label>
+              <div className="relative">
+                <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  name="codigo"
+                  value={formData.codigo}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                    errors.codigo 
+                      ? 'border-red-300 focus:ring-red-500' 
+                      : 'border-gray-300 focus:ring-blue-500'
+                  }`}
+                  placeholder="Ej: MAT101"
+                />
+              </div>
+              {errors.codigo && (
+                <p className="mt-1 text-sm text-red-600">{errors.codigo}</p>
+              )}
+            </div>
 
-          {/* Facultad */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Facultad/Departamento
-            </label>
-            <input
-              type="text"
-              name="facultad"
-              value={formData.facultad}
-              onChange={handleChange}
-              placeholder="Ej: Ingeniería"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            />
-          </div>
+            {/* Nombre del Grupo */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Nombre del Grupo
+              </label>
+              <div className="relative">
+                <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  name="nombreGrupo"
+                  value={formData.nombreGrupo}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                    errors.nombreGrupo 
+                      ? 'border-red-300 focus:ring-red-500' 
+                      : 'border-gray-300 focus:ring-blue-500'
+                  }`}
+                  placeholder="Ej: Grupo A"
+                />
+              </div>
+              {errors.nombreGrupo && (
+                <p className="mt-1 text-sm text-red-600">{errors.nombreGrupo}</p>
+              )}
+            </div>
 
-          {/* Semestre */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Semestre
-            </label>
-            <input
-              type="number"
-              name="semestre"
-              value={formData.semestre}
-              onChange={handleChange}
-              min="1"
-              max="12"
-              className={`mt-1 block w-full rounded-md shadow-sm h-10 pl-3 
-                ${errors.semestre ? 'border-red-300' : 'border-gray-300'}`}
-            />
-            {errors.semestre && (
-              <p className="mt-1 text-sm text-red-600">{errors.semestre}</p>
-            )}
-          </div>
+            {/* Materia */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Nombre de la Materia
+              </label>
+              <div className="relative">
+                <BookOpen className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  name="materia"
+                  value={formData.materia}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                    errors.materia 
+                      ? 'border-red-300 focus:ring-red-500' 
+                      : 'border-gray-300 focus:ring-blue-500'
+                  }`}
+                  placeholder="Ej: Cálculo Diferencial"
+                />
+              </div>
+              {errors.materia && (
+                <p className="mt-1 text-sm text-red-600">{errors.materia}</p>
+              )}
+            </div>
 
-          {/* Periodo */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Periodo Académico
-            </label>
-            <input
-              type="text"
-              name="periodo"
-              value={formData.periodo}
-              onChange={handleChange}
-              placeholder="Ej: 2024-1"
-              className={`mt-1 block w-full rounded-md shadow-sm 
-                ${errors.periodo ? 'border-red-300' : 'border-gray-300'}`}
-            />
-            {errors.periodo && (
-              <p className="mt-1 text-sm text-red-600">{errors.periodo}</p>
-            )}
-          </div>
+            {/* Facultad */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Facultad/Departamento
+              </label>
+              <div className="relative">
+                <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  name="facultad"
+                  value={formData.facultad}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  placeholder="Ej: Ingeniería"
+                />
+              </div>
+            </div>
 
-          {/* Créditos */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Créditos
-            </label>
-            <input
-              type="number"
-              name="creditos"
-              value={formData.creditos}
-              onChange={handleChange}
-              min="1"
-              max="10"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm h-10 pl-3"
-            />
-          </div>
+            {/* Semestre */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Semestre
+              </label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <select
+                  name="semestre"
+                  value={formData.semestre}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                    errors.semestre 
+                      ? 'border-red-300 focus:ring-red-500' 
+                      : 'border-gray-300 focus:ring-blue-500'
+                  }`}
+                >
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(sem => (
+                    <option key={sem} value={sem}>Semestre {sem}</option>
+                  ))}
+                </select>
+              </div>
+              {errors.semestre && (
+                <p className="mt-1 text-sm text-red-600">{errors.semestre}</p>
+              )}
+            </div>
 
-          {/* Horario */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Horario
-            </label>
-            <input
-              type="text"
-              name="horario"
-              value={formData.horario}
-              onChange={handleChange}
-              placeholder="Ej: LUN-MIE 14:00-16:00"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            />
-          </div>
+            {/* Periodo */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Periodo Académico
+              </label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  name="periodo"
+                  value={formData.periodo}
+                  onChange={handleChange}
+                  className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                    errors.periodo 
+                      ? 'border-red-300 focus:ring-red-500' 
+                      : 'border-gray-300 focus:ring-blue-500'
+                  }`}
+                  placeholder="Ej: 2024-1"
+                />
+              </div>
+              {errors.periodo && (
+                <p className="mt-1 text-sm text-red-600">{errors.periodo}</p>
+              )}
+            </div>
 
-          {/* Aula */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Aula/Salón
-            </label>
-            <input
-              type="text"
-              name="aula"
-              value={formData.aula}
-              onChange={handleChange}
-              placeholder="Ej: Edificio A - 301"
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-            />
-          </div>
+            {/* Créditos */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Créditos
+              </label>
+              <div className="relative">
+                <GraduationCap className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="number"
+                  name="creditos"
+                  value={formData.creditos}
+                  onChange={handleChange}
+                  min="1"
+                  max="10"
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                />
+              </div>
+            </div>
 
-          {/* Cupo Máximo */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Cupo Máximo
-            </label>
-            <input
-              type="number"
-              name="cupoMaximo"
-              value={formData.cupoMaximo}
-              onChange={handleChange}
-              min="1"
-              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm h-10 pl-3 
-                ${errors.cupoMaximo ? 'border-red-300' : 'border-gray-300'}`}
-            />
-            {errors.cupoMaximo && (
-              <p className="mt-1 text-sm text-red-600">{errors.cupoMaximo}</p>
-            )}
-          </div>
+            {/* Cupo Máximo */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Cupo Máximo
+              </label>
+              <div className="relative">
+                <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="number"
+                  name="cupoMaximo"
+                  value={formData.cupoMaximo}
+                  onChange={handleChange}
+                  min="1"
+                  className={`w-full pl-10 pr-3 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                    errors.cupoMaximo 
+                      ? 'border-red-300 focus:ring-red-500' 
+                      : 'border-gray-300 focus:ring-blue-500'
+                  }`}
+                />
+              </div>
+              {errors.cupoMaximo && (
+                <p className="mt-1 text-sm text-red-600">{errors.cupoMaximo}</p>
+              )}
+            </div>
 
-          {/* Profesores */}
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Profesor(es) Asignado(s)
-            </label>
-            <div className="space-y-2 max-h-32 overflow-y-auto border rounded-md p-2">
-              {profesores.map((profesor) => (
-                <label key={profesor.id} className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={formData.profesoresIds.includes(profesor.id)}
-                    onChange={() => handleProfesorChange(profesor.id)}
-                    className="mr-2"
-                  />
-                  <span className="text-sm">
-                    {profesor.nombreUsuario} - {profesor.especialidad || 'Sin especialidad'}
-                  </span>
-                </label>
-              ))}
+            {/* Horario */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Horario
+              </label>
+              <div className="relative">
+                <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  name="horario"
+                  value={formData.horario}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  placeholder="Ej: LUN-MIE 14:00-16:00"
+                />
+              </div>
+            </div>
+
+            {/* Aula */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Aula/Salón
+              </label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  name="aula"
+                  value={formData.aula}
+                  onChange={handleChange}
+                  className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  placeholder="Ej: Edificio A - 301"
+                />
+              </div>
             </div>
           </div>
+
+          {/* Sección de Profesores */}
+          <div className="pt-6 border-t border-gray-200">
+            <label className="block text-sm font-medium text-gray-700 mb-3">
+              Profesor(es) Asignado(s)
+            </label>
+            
+            {loadingProfesores ? (
+              <div className="flex items-center justify-center py-8">
+                <svg className="animate-spin h-8 w-8 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </div>
+            ) : (
+              <div className="space-y-2 max-h-48 overflow-y-auto border border-gray-300 rounded-lg p-4 bg-gray-50">
+                {profesores.length === 0 ? (
+                  <p className="text-gray-500 text-center py-4">No hay profesores disponibles</p>
+                ) : (
+                  profesores.map((profesor) => (
+                    <motion.label
+                      key={profesor.id}
+                      whileTap={{ scale: 0.98 }}
+                      className="flex items-center p-3 rounded-lg hover:bg-white cursor-pointer transition-all"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={formData.profesoresIds.includes(profesor.id)}
+                        onChange={() => handleProfesorChange(profesor.id)}
+                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      />
+                      <div className="ml-3 flex items-center">
+                        <div className="bg-blue-100 rounded-full p-2 mr-3">
+                          <User className="w-4 h-4 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">{profesor.nombreUsuario}</p>
+                          <p className="text-xs text-gray-500">{profesor.especialidad || 'Sin especialidad'}</p>
+                        </div>
+                      </div>
+                      {profesor.email && (
+                        <span className="text-xs text-gray-400 ml-auto">{profesor.email}</span>
+                      )}
+                    </motion.label>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Botones */}
-        <div className="flex justify-end space-x-3 pt-4">
-          <button
+        {/* Botones de acción */}
+        <div className="flex justify-end space-x-3 mt-8 pt-6 border-t border-gray-200">
+          <motion.button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-all duration-200 flex items-center"
           >
+            <X className="w-5 h-5 mr-2" />
             Cancelar
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             type="submit"
             disabled={loading}
-            className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200 flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Guardando...' : (grupo ? 'Actualizar' : 'Crear')}
-          </button>
+            {loading ? (
+              <>
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Guardando...
+              </>
+            ) : (
+              <>
+                <Save className="w-5 h-5 mr-2" />
+                {grupo ? 'Actualizar' : 'Crear'} Grupo
+              </>
+            )}
+          </motion.button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 };
 

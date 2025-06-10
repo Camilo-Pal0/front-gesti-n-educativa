@@ -4,6 +4,7 @@ import Login from './components/Login';
 import DashboardAdmin from './components/DashboardAdmin';
 import DashboardProfesor from './components/DashboardProfesor';
 import PrivateRoute from './components/PrivateRoute';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -36,6 +37,62 @@ function App() {
           } />
         </Routes>
       </Router>
+      
+      {/* Configuración global de Toast */}
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          // Duración por defecto
+          duration: 4000,
+          
+          // Estilos por defecto
+          style: {
+            background: '#fff',
+            color: '#363636',
+            padding: '16px',
+            borderRadius: '12px',
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          },
+          
+          // Estilos específicos por tipo
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: '#10B981',
+              secondary: '#fff',
+            },
+            style: {
+              background: '#F0FDF4',
+              color: '#166534',
+              border: '1px solid #BBF7D0',
+            },
+          },
+          
+          error: {
+            duration: 4000,
+            iconTheme: {
+              primary: '#EF4444',
+              secondary: '#fff',
+            },
+            style: {
+              background: '#FEF2F2',
+              color: '#991B1B',
+              border: '1px solid #FECACA',
+            },
+          },
+          
+          loading: {
+            iconTheme: {
+              primary: '#3B82F6',
+              secondary: '#fff',
+            },
+          },
+        }}
+      />
     </AuthProvider>
   );
 }
